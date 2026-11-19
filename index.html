@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helix Security Monitor</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="Security status and incident timeline for helixbiomedics.com.">
+<style>
+:root{
+  --canvas:#f5f5f5; --card:#fff; --card-2:#fafafa; --stroke:#e1e1e1; --stroke-2:#eaeaea;
+  --fg:#242424; --fg-2:#616161; --fg-3:#8a8a8a;
+  --brand:#0f6cbd; --brand-tint:#ebf3fc;
+  --ok:#0e700e; --ok-bg:#e8f5e9; --warn:#bc4b09; --warn-bg:#fdf3e7; --crit:#b10e1c; --crit-bg:#fdeef0;
+  --sh4:0 1px 2px rgba(0,0,0,.12),0 0 2px rgba(0,0,0,.10);
+  --r:8px;
+  --font:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  --mono:"Cascadia Code",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --canvas:#1b1b1b; --card:#262626; --card-2:#2e2e2e; --stroke:#3a3a3a; --stroke-2:#333;
+    --fg:#eee; --fg-2:#b4b4b4; --fg-3:#8a8a8a; --brand:#479ef5; --brand-tint:#1d2b3a;
+    --ok:#54b054; --ok-bg:#1c2e1c; --warn:#f0a35c; --warn-bg:#35281b; --crit:#f1707b; --crit-bg:#3b1f22;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --canvas:#1b1b1b; --card:#262626; --card-2:#2e2e2e; --stroke:#3a3a3a; --stroke-2:#333;
+  --fg:#eee; --fg-2:#b4b4b4; --fg-3:#8a8a8a; --brand:#479ef5; --brand-tint:#1d2b3a;
+  --ok:#54b054; --ok-bg:#1c2e1c; --warn:#f0a35c; --warn-bg:#35281b; --crit:#f1707b; --crit-bg:#3b1f22;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--fg);font:14px/1.5 var(--font)}
+.wrap{padding:24px 16px 40px;max-width:1400px;margin:0 auto}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+header h1{font-size:1.35rem;margin:0}
+header .sub{color:var(--fg-2);font-size:.85rem}
+.pill{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;background:var(--ok-bg);color:var(--ok)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+@media(min-width:700px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--card);border:1px solid var(--stroke);border-radius:var(--r);padding:14px;box-shadow:var(--sh4)}
+.tile .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-2);font-weight:600}
+.tile .v{font-size:1.45rem;font-weight:600;line-height:1.2;margin-top:4px}
+.tile .d{font-size:.72rem;color:var(--fg-3)}
+.ok{color:var(--ok)} .warn{color:var(--warn)}
+.grid{display:grid;gap:16px}
+@media(min-width:1000px){.grid{grid-template-columns:1fr 1fr}}
+.panel{background:var(--card);border:1px solid var(--stroke);border-radius:var(--r);padding:18px;box-shadow:var(--sh4)}
+.panel h2{font-size:1rem;margin:0 0 12px}
+ul.chk{list-style:none;margin:0;padding:0}
+ul.chk li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--stroke-2)}
+ul.chk li:last-child{border-bottom:0}
+.mk{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:700;margin-top:2px}
+.mk.ok{background:var(--ok-bg);color:var(--ok)} .mk.open{background:var(--warn-bg);color:var(--warn)}
+.time{list-style:none;margin:0;padding:0}
+.time li{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--stroke-2)}
+.time li:last-child{border-bottom:0}
+.time .d{font-family:var(--mono);font-size:.76rem;color:var(--fg-2)}
+.note{margin-top:16px;font-size:.78rem;color:var(--fg-3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Helix Security Monitor</h1>
+      <div class="sub">helixbiomedics.com · last updated 2026-11-19 08:20 UTC</div>
+    </div>
+    <span class="pill"><i></i>Online · restored</span>
+  </header>
+
+  <div class="tiles">
+    <div class="tile"><div class="k">Site status</div><div class="v ok">Online</div><div class="d">HTTP 200 · ~0.5 s response</div></div>
+    <div class="tile"><div class="k">WordPress core</div><div class="v ok">Verified</div><div class="d">Current release · checksums pass</div></div>
+    <div class="tile"><div class="k">Firewall / scanner</div><div class="v ok">Active</div><div class="d">Wordfence reinstalled</div></div>
+    <div class="tile"><div class="k">Hardening</div><div class="v warn">In progress</div><div class="d">Account &amp; plugin review ongoing</div></div>
+  </div>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Completed</h2>
+      <ul class="chk">
+        <li><span class="mk ok">&check;</span><div>Site rebuilt and content restored from backup</div></li>
+        <li><span class="mk ok">&check;</span><div>WordPress core reinstalled at the current release and verified against official checksums</div></li>
+        <li><span class="mk ok">&check;</span><div>Malicious plugins and backdoor files removed or quarantined</div></li>
+        <li><span class="mk ok">&check;</span><div>Firewall and malware scanner reinstalled and active</div></li>
+        <li><span class="mk ok">&check;</span><div>Dashboard file editing disabled</div></li>
+        <li><span class="mk ok">&check;</span><div>Configuration file permissions tightened</div></li>
+        <li><span class="mk ok">&check;</span><div>Downloadable backup archives removed from the web root</div></li>
+        <li><span class="mk ok">&check;</span><div>High-risk file-manager plugin removed</div></li>
+        <li><span class="mk ok">&check;</span><div>Homepage verified free of injected scripts and spam</div></li>
+      </ul>
+    </section>
+    <section class="panel">
+      <h2>In progress</h2>
+      <ul class="chk">
+        <li><span class="mk open">●</span><div>User account review and cleanup</div></li>
+        <li><span class="mk open">●</span><div>Credential rotation</div></li>
+        <li><span class="mk open">●</span><div>Plugin review and replacement of unsupported plugins</div></li>
+        <li><span class="mk open">●</span><div>Removal of temporary development code</div></li>
+        <li><span class="mk open">●</span><div>Ongoing monitoring of files, users and logins every 10 minutes</div></li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:16px">
+    <h2>Incident timeline</h2>
+    <ul class="time">
+      <li><span class="d">2026-10-09</span><span>Initial compromise through a file-upload weakness in a form plugin</span></li>
+      <li><span class="d">2026-10-26</span><span>First cleanup: backdoors removed, core reinstalled, security keys rotated</span></li>
+      <li><span class="d">2026-11-02</span><span>Unauthorized accounts detected</span></li>
+      <li><span class="d">2026-11-18</span><span>Second cleanup: two hidden script-injecting plugins found and removed</span></li>
+      <li><span class="d">2026-11-18</span><span>Site re-compromised through administrator logins; spam and backdoor files added</span></li>
+      <li><span class="d">2026-11-18</span><span>Site taken offline and rebuilt by the development team</span></li>
+      <li><span class="d">2026-11-19</span><span>Content restored from backup; core updated; firewall reinstalled; hardening applied</span></li>
+    </ul>
+  </section>
+
+  <p class="note">Public summary. Technical details are kept in the private incident log.</p>
+</div>
+</body>
+</html>
